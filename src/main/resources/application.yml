@@ -1,0 +1,31 @@
+server:
+  port: 8888
+spring:
+  thymeleaf:
+    servlet:
+      content-type: text/html
+    cache: false
+    mode: LEGACYHTML5
+    data:
+      mongodb:
+        uri: mongodb://127.0.0.1/user
+  http:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+  application:
+    name: mybatis-ot
+  datasource:
+    username: root
+    password: root
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/boot?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC&allowMultiQueries=true
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: com.qzr.mybatis_ot.entity
+
+pagehelper:
+  helperDialect: mysql
+  reasonable: true
+  supportMethodsArguments: true
+  params: count=countSql

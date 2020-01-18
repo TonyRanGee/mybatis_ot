@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qzr.mybatis_ot.dao.adminUser.UserDao">
+
+        <resultMap id="userResult" type="User">
+            <result property="id" column="id"/>
+            <result property="name" column="name"/>
+            <result property="sex" column="sex"/>
+            <result property="age" column="age"/>
+            <result property="content" column="content"/>
+            <result property="address" column="address"/>
+        </resultMap>
+
+        <sql id="user_columns">
+            user.id,
+            user.name,
+            user.sex,
+            user.age,
+            user.content,
+            user.address
+        </sql>
+
+        <sql id="user_properties">
+            #{id},
+            #{name},
+            #{sex},
+            #{age},
+            #{content},
+            #{address}
+        </sql>
+
+        <insert id="createUser" parameterType="user" keyColumn="id" keyProperty="id" useGeneratedKeys="true" >
+            insert INTO user (<include refid="user_columns"/>) VALUES (<include refid="user_properties"/>)
+        </insert>
+
+        <insert id="addAdminUserAll" parameterType="List">
+            insert into user
+            (<include refid="user_columns"/>)
+            values
+            <foreach collection="list" item="item" index="index" separator=",">
+                (
+                #{item.id},
+                #{item.name},
+                #{item.sex},
+                #{item.age},
+                #{item.content},
+                #{item.address}
+                )
+            </foreach>
+
+        </insert>
+
+        <insert id="addAdminUser" parameterType="user" keyColumn="id" keyProperty="id" useGeneratedKeys="true" >
+            insert INTO user (<include refid="user_columns"/>) VALUES (<include refid="user_properties"/>)
+        </insert>
+
+        <insert id="addAdminUserAllSecond" parameterType="user" keyColumn="id" keyProperty="id" useGeneratedKeys="true" >
+            insert INTO user (<include refid="user_columns"/>) VALUES (<include refid="user_properties"/>)
+        </insert>
+
+        <delete id="deleteUserById" parameterType="Long">
+            delete from user
+            where
+                id = #{value}
+        </delete>
+
+        <update id="updateAdminUser" parameterType="user">
+            update user SET
+                id = #{id},
+                name = #{name},
+                sex = #{sex},
+                age = #{age},
+                content = #{content},
+                address = #{address}
+            where
+                id = #{id}
+        </update>
+
+        <select id="getAdminUserById" resultMap="userResult" parameterType="Long">
+            select
+            <include refid="user_columns"/>
+            from user
+            where
+                id = #{value}
+        </select>
+
+        <select id="getAdminUserList" resultMap="userResult">
+            select <include refid="user_columns"/> from user
+        </select>
+
+        <select id="selectPage" resultMap="userResult">
+            select <include refid="user_columns"/> from user
+        </select>
+</mapper>
